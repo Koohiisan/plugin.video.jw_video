@@ -2,6 +2,7 @@ plugin.video.jw_video
 =====================
 
 XBMC plugin for jw.org videos
+(unofficial addon)
 
 v0.9.0
 Initial public release
