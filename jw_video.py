@@ -81,7 +81,6 @@ def get_videos(urltouse):
 		if '&amp;start=' + str(curloop+10) in str(link):
 			curloop=curloop+10
 			loopagain = 1
-			#temporary fix until multi-page implementation!
 			log ("detected more pages, so will loop starting with " + str(curloop))
 		else:
 			loopagain = 0
