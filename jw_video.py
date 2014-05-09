@@ -103,7 +103,7 @@ def play_video(trythisone):
 			brackets = str(a).replace('[', '').replace(']', '').replace('&amp;','&')
 			pattern = re.sub('<a href="', '', str(brackets))
 			realurl = re.sub ('\" target="_blank">Download This Video</a>', '', str(pattern))
-			gohere = baseurl + str(realurl)
+			gohere = baseurl + str(realurl).replace('&alllangs=1','&alllangs=0')
 			req3 = urllib2.Request(gohere)
 			req3.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3 Gecko/2008092417 Firefox/3.0.3')
 			response3 = urllib2.urlopen(req3)
