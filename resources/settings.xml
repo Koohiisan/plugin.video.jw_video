@@ -1,0 +1,4 @@
+<settings>
+   <setting id="quality" type="enum" values="240P|360P|48Pp|720P|Maximum available|Minimum available" label="30000" default="Maximum available" />
+   <setting id="language" type="enum" values="English (en)"label="30010" default="English (en)" />
+</settings>
