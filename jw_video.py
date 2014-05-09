@@ -8,15 +8,25 @@
 import sys
 import xbmcgui
 import xbmcplugin
+import xbmcaddon
 import urllib2,urllib,re
 _ADDON_NAME = "jw.org Videos"
 addon_handle = int(sys.argv[1])
+this_addon = xbmcaddon.Addon()
 xbmcplugin.setContent(addon_handle, 'movies')
+setting_quality = str(this_addon.getSettings('quality'))
+setting_lang = str(setting_quality = this_addon.getSettings('language'))
+test_setting_lang_abbr = re.search(r'\((.*?)\)',setting_lang)
+if test_setting_lang_abbr:
+	setting_lang_abbr = setting_lang_abbr.group()
+else:
+	setting_lang_abbr = 'en'
+setting_lang_urlbase = setting_lang_abbr + '/videos/'
 
 def log(msg, level=0):
         xbmc.log('%s: %s' % (_ADDON_NAME, msg), level)
 
-baseurl = "http://www.jw.org"
+baseurl = 'http://www.jw.org/'
 
 def addDir(name,url,mode,iconimage,boolfolder):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
@@ -39,17 +49,17 @@ def deesc(t):
         ).strip()
 
 def show_categories():    
-		addDir('All Topics', baseurl+'/en/videos/?videoFilter=none&sortBy=1',1,'', True)
-		addDir('Bible Accounts', baseurl+'/en/videos/?videoFilter=bibleAccounts&sortBy=1',1,'',True)
-		addDir('For the Family', baseurl+'/en/videos/?videoFilter=families&sortBy=1',1,'',True)
-		addDir('For Teenagers', baseurl+'/en/videos/?videoFilter=teenagers&sortBy=1',1,'',True)
-		addDir('For Children', baseurl+'/en/videos/?videoFilter=children&sortBy=1',1,'',True)
-		addDir('What Your Peers Say', baseurl+'/en/videos/?videoFilter=whatPeersSay&sortBy=1',1,'',True)
-		addDir('Whiteboard Animations', baseurl+'/en/videos/?videoFilter=whiteboardAnimations&sortBy=1',1,'',True)
-		addDir('Become Jehovah\'s Friend', baseurl+'/en/videos/?videoFilter=jehovahs-friend&sortBy=1',1,'',True)
-		addDir('News', baseurl+'/en/videos/?videoFilter=news&sortBy=1',1,'',True)
-		addDir('Our Activities', baseurl+'/en/videos/?videoFilter=activities&sortBy=1',1,'',True)
-		addDir('History & Organization', baseurl+'/en/videos/?videoFilter=history&sortBy=1',1,'',True)
+		addDir('All Topics', baseurl+setting_lang_urlbase+'?videoFilter=none&sortBy=1',1,'', True)
+		addDir('Bible Accounts', baseurl+setting_lang_urlbase+'?videoFilter=bibleAccounts&sortBy=1',1,'',True)
+		addDir('For the Family', baseurl+setting_lang_urlbase+'?videoFilter=families&sortBy=1',1,'',True)
+		addDir('For Teenagers', baseurl+setting_lang_urlbase+'?videoFilter=teenagers&sortBy=1',1,'',True)
+		addDir('For Children', baseurl+setting_lang_urlbase+'?videoFilter=children&sortBy=1',1,'',True)
+		addDir('What Your Peers Say', baseurl+setting_lang_urlbase+'?videoFilter=whatPeersSay&sortBy=1',1,'',True)
+		addDir('Whiteboard Animations', baseurl+setting_lang_urlbase+'?videoFilter=whiteboardAnimations&sortBy=1',1,'',True)
+		addDir('Become Jehovah\'s Friend', baseurl+setting_lang_urlbase+'?videoFilter=jehovahs-friend&sortBy=1',1,'',True)
+		addDir('News', baseurl+setting_lang_urlbase+'?videoFilter=news&sortBy=1',1,'',True)
+		addDir('Our Activities', baseurl+setting_lang_urlbase+'?videoFilter=activities&sortBy=1',1,'',True)
+		addDir('History & Organization', baseurl+setting_lang_urlbase+'?videoFilter=history&sortBy=1',1,'',True)
 
 def get_params():
         param=[]
@@ -182,4 +192,3 @@ else:
 	show_categories()
 
 xbmcplugin.endOfDirectory(addon_handle)
-
