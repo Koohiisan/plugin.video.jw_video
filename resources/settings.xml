@@ -1,4 +1,5 @@
 <settings>
    <setting id="quality" type="labelenum" values="240P|360P|48Pp|720P|Maximum available|Minimum available" label="30000" default="Maximum available" />
    <setting id="language" type="labelenum" values="English (en)"label="30010" default="English (en)" />
+   <setting id="subtitles" type="labelenum" values="No subtitles|Subtitles (always)|Subtitles (prefered)" default="No subtitles"/>
 </settings>
