@@ -12,13 +12,13 @@ import xbmcaddon
 import urllib2,urllib,re
 _ADDON_NAME = "jw.org Videos"
 addon_handle = int(sys.argv[1])
-this_addon = xbmcaddon.Addon()
+this_addon = xbmcaddon.Addon(id="plugin.video.jw_video")
 xbmcplugin.setContent(addon_handle, 'movies')
-setting_quality = str(this_addon.getSettings('quality'))
-setting_lang = str(setting_quality = this_addon.getSettings('language'))
+setting_quality = str(this_addon.getSetting('quality'))
+setting_lang = str(this_addon.getSetting('language'))
 test_setting_lang_abbr = re.search(r'\((.*?)\)',setting_lang)
 if test_setting_lang_abbr:
-	setting_lang_abbr = setting_lang_abbr.group()
+	setting_lang_abbr = test_setting_lang_abbr.group().replace('(','').replace(')','')
 else:
 	setting_lang_abbr = 'en'
 setting_lang_urlbase = setting_lang_abbr + '/videos/'
@@ -26,7 +26,7 @@ setting_lang_urlbase = setting_lang_abbr + '/videos/'
 def log(msg, level=0):
         xbmc.log('%s: %s' % (_ADDON_NAME, msg), level)
 
-baseurl = 'http://www.jw.org/'
+baseurl = 'http://www.jw.org'
 
 def addDir(name,url,mode,iconimage,boolfolder):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
@@ -49,17 +49,17 @@ def deesc(t):
         ).strip()
 
 def show_categories():    
-		addDir('All Topics', baseurl+setting_lang_urlbase+'?videoFilter=none&sortBy=1',1,'', True)
-		addDir('Bible Accounts', baseurl+setting_lang_urlbase+'?videoFilter=bibleAccounts&sortBy=1',1,'',True)
-		addDir('For the Family', baseurl+setting_lang_urlbase+'?videoFilter=families&sortBy=1',1,'',True)
-		addDir('For Teenagers', baseurl+setting_lang_urlbase+'?videoFilter=teenagers&sortBy=1',1,'',True)
-		addDir('For Children', baseurl+setting_lang_urlbase+'?videoFilter=children&sortBy=1',1,'',True)
-		addDir('What Your Peers Say', baseurl+setting_lang_urlbase+'?videoFilter=whatPeersSay&sortBy=1',1,'',True)
-		addDir('Whiteboard Animations', baseurl+setting_lang_urlbase+'?videoFilter=whiteboardAnimations&sortBy=1',1,'',True)
-		addDir('Become Jehovah\'s Friend', baseurl+setting_lang_urlbase+'?videoFilter=jehovahs-friend&sortBy=1',1,'',True)
-		addDir('News', baseurl+setting_lang_urlbase+'?videoFilter=news&sortBy=1',1,'',True)
-		addDir('Our Activities', baseurl+setting_lang_urlbase+'?videoFilter=activities&sortBy=1',1,'',True)
-		addDir('History & Organization', baseurl+setting_lang_urlbase+'?videoFilter=history&sortBy=1',1,'',True)
+		addDir('All Topics', baseurl+'/'+setting_lang_urlbase+'?videoFilter=none&sortBy=1',1,'', True)
+		addDir('Bible Accounts', baseurl+'/'+setting_lang_urlbase+'?videoFilter=bibleAccounts&sortBy=1',1,'',True)
+		addDir('For the Family', baseurl+'/'+setting_lang_urlbase+'?videoFilter=families&sortBy=1',1,'',True)
+		addDir('For Teenagers', baseurl+'/'+setting_lang_urlbase+'?videoFilter=teenagers&sortBy=1',1,'',True)
+		addDir('For Children', baseurl+'/'+setting_lang_urlbase+'?videoFilter=children&sortBy=1',1,'',True)
+		addDir('What Your Peers Say', baseurl+'/'+setting_lang_urlbase+'?videoFilter=whatPeersSay&sortBy=1',1,'',True)
+		addDir('Whiteboard Animations', baseurl+'/'+setting_lang_urlbase+'?videoFilter=whiteboardAnimations&sortBy=1',1,'',True)
+		addDir('Become Jehovah\'s Friend', baseurl+'/'+setting_lang_urlbase+'?videoFilter=jehovahs-friend&sortBy=1',1,'',True)
+		addDir('News', baseurl+'/'+setting_lang_urlbase+'?videoFilter=news&sortBy=1',1,'',True)
+		addDir('Our Activities', baseurl+'/'+setting_lang_urlbase+'?videoFilter=activities&sortBy=1',1,'',True)
+		addDir('History & Organization', baseurl+'/'+setting_lang_urlbase+'?videoFilter=history&sortBy=1',1,'',True)
 
 def get_params():
         param=[]
@@ -84,6 +84,7 @@ def get_videos(urltouse):
 	loopagain = 1
 	while loopagain==1:
 		req = urllib2.Request(urltouse + '&start=' + str(curloop))
+		print urltouse + '&start=' + str(curloop)
 		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3 Gecko/2008092417 Firefox/3.0.3')
 		response = urllib2.urlopen(req)
 		link=response.read()
@@ -115,6 +116,7 @@ def play_video(trythisone):
 			realurl = re.sub ('\" target="_blank">Download This Video</a>', '', str(pattern))
 			gohere = baseurl + str(realurl).replace('&alllangs=1','&alllangs=0')
 			req3 = urllib2.Request(gohere)
+			print gohere
 			req3.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3 Gecko/2008092417 Firefox/3.0.3')
 			response3 = urllib2.urlopen(req3)
 			link3=response3.read()
