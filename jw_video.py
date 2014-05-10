@@ -108,7 +108,7 @@ def play_video(trythisone):
 	response2 = urllib2.urlopen(req2)
 	link2=response2.read()
 	response2.close()
-	testurl = re.compile('>(.*?)</h1>[\s\S]*href=\'(.*?)\'>\s*Dow').findall(link2)
+	testurl = re.compile('>(.*?)</h1>[\s\S]*href=\'(.*?)\'>').findall(link2)
 	for b,a in testurl:
 		if 'mp4' in str(a):
 			brackets = str(a).replace('[', '').replace(']', '').replace('&amp;','&')
